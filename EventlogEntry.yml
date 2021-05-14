@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: windows
   gather_facts: false
   tasks:
    - name: Write an entry to a Windows event log
