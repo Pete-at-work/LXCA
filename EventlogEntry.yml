@@ -9,5 +9,5 @@
        log: Application
        source: Ansible
        event_id: 6666
-       message: {{ change_ref }}
+       message: "{{ change_ref }}"
 # ansible-playbook eventlogentry.yml --extra-var "change_ref=chg0123456"
