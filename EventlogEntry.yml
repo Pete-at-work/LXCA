@@ -1,10 +1,13 @@
 ---
 - hosts: windows
   gather_facts: false
+  vars:
+    change_ref
   tasks:
    - name: Write an entry to a Windows event log
      win_eventlog_entry:
        log: Application
        source: Ansible
-       event_id: 666
-       message: firmware updated via change
+       event_id: 6666
+       message: {{ change_ref }}
+# ansible-playbook eventlogentry.yml --extra-var "change_ref=chg0123456"
