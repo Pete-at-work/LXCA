@@ -14,4 +14,3 @@
        source: Ansible
        event_id: 6666
        message: Firmware updated via "{{ change_ref }}"
-# ansible-playbook eventlogentry.yml --extra-var "change_ref=chg0123456"

@@ -1,0 +1,10 @@
+---
+- hosts: windows
+  gather_facts: false
+  tasks:
+   - name: Write an entry to a Windows event log
+     win_eventlog_entry:
+       log: Application
+       source: Ansible
+       event_id: 666
+       message: firmware updated via change
