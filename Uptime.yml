@@ -18,3 +18,10 @@
 
   - debug:
       msg: "Server was NOT rebooted, uptime is {{uptime_mins}}"
+
+  - name: Write an entry to a Windows event log
+    win_eventlog_entry:
+    log: Application
+    source: Ansible
+    event_id: 65535
+    message: {{uptime_mins}}
