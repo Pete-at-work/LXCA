@@ -16,8 +16,7 @@
    - name: Save Uptime related variables
      set_fact:
       uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
-      uptime_above_limit:
-        "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
+      uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
    - debug:
        msg: "Below Uptime_threshold - No reboot required"
