@@ -3,13 +3,7 @@
   gather_facts: false
   vars_prompt:
 
-  - name: change_ref
-    prompt: What is the change ref?
-    private: no
 
-  - name: implementor
-    prompt: Who is implenting this change?
-    private: no
 
   vars:
     uptime_threshold: 60
@@ -29,9 +23,18 @@
   - debug:
       msg: "uptime is {{uptime_mins}} minutes"
 
-- name: Write an entry to a Windows event log
-  win_eventlog_entry:
-    log: Application
-    source: Ansible
-    event_id: 65535
-    message: "Firmware updated via {{ change_ref }} \n\nImplemented by {{ implementor }} \n\nUptime {{uptime_mins}} minutes"
+  - name: change_ref
+    prompt: What is the change ref?
+    private: no
+
+  - name: implementor
+    prompt: Who is implenting this change?
+    private: no
+
+
+-   name: Write an entry to a Windows event log
+    win_eventlog_entry:
+      log: Application
+      source: Ansible
+      event_id: 65535
+      message: "Firmware updated via {{ change_ref }} \n\nImplemented by {{ implementor }} \n\nUptime {{uptime_mins}} minutes"
