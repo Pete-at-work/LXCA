@@ -16,5 +16,5 @@
      win_eventlog_entry:
        log: Application
        source: Ansible
-       event_id: 66666
+       event_id: 65535
        message: Firmware updated by {{ change_ref }} / implemented by {{ implementor }}
