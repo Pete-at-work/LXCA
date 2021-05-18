@@ -1,9 +1,11 @@
 ---
 - hosts: host-win
   gather_facts: false
+  vars:
+    uptime_raw
 
   tasks:
-   - name: get the affected windows host's uptime
+   - name: gather uptime from server
      win_shell: "[convert]::ToInt32(($(Get-Date) - $(Get-WmiObject
         Win32_OperatingSystem).ConvertToDateTime($(Get-WmiObject
         Win32_OperatingSystem).LastBootUpTime)).TotalMInutes);"
