@@ -26,8 +26,8 @@
       uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
       uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
-- debug:
-    msg: "uptime is {{uptime_mins}} minutes"
+  - debug:
+      msg: "uptime is {{uptime_mins}} minutes"
 
 - name: Write an entry to a Windows event log
   win_eventlog_entry:
