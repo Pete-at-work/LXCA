@@ -1,10 +1,8 @@
 ---
 - hosts: host-win
   gather_facts: false
-  vars:
-     uptime_threshold: 60
-  tasks:
 
+  tasks:
    - name: get the affected windows host's uptime
      win_shell: "[convert]::ToInt32(($(Get-Date) - $(Get-WmiObject
         Win32_OperatingSystem).ConvertToDateTime($(Get-WmiObject
@@ -12,4 +10,11 @@
      register: uptime_raw
      changed_when: false
      ignore_errors: true
-     msg: "{{ uptime_raw.stdout_lines[0] | int }}"
+
+     tasks:
+      - name: Write uptime to eventlog
+        win_eventlog_entry:
+          log: Application
+          source: Ansible
+          event_id: 65535
+          message: "{{uptime_raw}} \n\n{{ uptime_raw.stdout_lines[0] | int }}"
