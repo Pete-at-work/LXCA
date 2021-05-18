@@ -13,18 +13,17 @@
 
   - name: Save Uptime related variables
     set_fact:
-    uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
-    uptime_above_limit:
-      "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
+      uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
+      uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
   - debug:
-    msg: "Below Uptime_threshold - No reboot required "
-    when: uptime_above_limit is false
+      msg: "Below Uptime_threshold - No reboot required "
+      when: uptime_above_limit is false
 
   - debug:
-    msg: "Above Uptime_threshold - so rebooting the server NOW"
-    when: uptime_above_limit is true
+      msg: "Above Uptime_threshold - so rebooting the server NOW"
+      when: uptime_above_limit is true
 
   - debug:
-    msg: "Server was NOT rebooted, uptime is {{uptime_mins}}"
-    when: uptime_above_limit is false
+      msg: "Server was NOT rebooted, uptime is {{uptime_mins}}"
+      when: uptime_above_limit is false
