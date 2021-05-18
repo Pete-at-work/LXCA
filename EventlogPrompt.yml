@@ -11,6 +11,9 @@
     prompt: Who is implenting this change?
     private: no
 
+  vars:
+     uptime_threshold: 60 
+
   tasks:
 
     name: get the affected windows host's uptime
