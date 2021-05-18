@@ -17,7 +17,7 @@
       uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
   - debug:
-      msg: "Server was NOT rebooted, uptime is {{uptime_mins}}"
+      msg: "uptime is {{uptime_mins}} minutes"
 
   - name: Eventlog add
     win_eventlog_entry:
