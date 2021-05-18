@@ -1,11 +1,15 @@
 ---
-- hosts: all
+- hosts: host-win
   gather_facts: false
   vars_prompt:
 
-    - name: change_ref
-      prompt: What is the change ref?
-      private: no
+  - name: change_ref
+    prompt: What is the change ref?
+    private: no
+
+  - name: Server uptime
+    reboot:
+      boot_time_command:
 
   tasks:
    - name: Write an entry to a Windows event log
