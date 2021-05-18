@@ -14,24 +14,24 @@
   vars:
     uptime_threshold: 60
 
-    tasks:
-    - name: get the affected windows host's uptime
+  tasks:
+  - name: get the affected windows host's uptime
       win_shell: "[convert]::ToInt32(($(Get-Date) - $(Get-WmiObject Win32_OperatingSystem).ConvertToDateTime($(Get-WmiObject Win32_OperatingSystem).LastBootUpTime)).TotalMInutes);"
       register: uptime_raw
       changed_when: false
       ignore_errors: true
 
-    - name: Save Uptime related variables
+  - name: Save Uptime related variables
       set_fact:
         uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
         uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
-    - debug:
+  - debug:
         msg: "uptime is {{uptime_mins}} minutes"
 
-   - name: Write an entry to a Windows event log
-     win_eventlog_entry:
-       log: Application
-       source: Ansible
-       event_id: 65535
-       message: "Firmware updated via {{ change_ref }} \n\nImplemented by {{ implementor }} \n\nUptime {{uptime_mins}} minutes"
+  - name: Write an entry to a Windows event log
+    win_eventlog_entry:
+    log: Application
+    source: Ansible
+    event_id: 65535
+    message: "Firmware updated via {{ change_ref }} \n\nImplemented by {{ implementor }} \n\nUptime {{uptime_mins}} minutes"
