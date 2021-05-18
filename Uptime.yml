@@ -1,8 +1,7 @@
 ---
 - hosts: host-win
   gather_facts: false
-  vars:
-    uptime_threshold: 60
+#  vars:
 
   tasks:
    - name: gather uptime from server
@@ -13,15 +12,13 @@
      changed_when: false
      ignore_errors: true
 
-  # - name: Save Uptime related variables
-  #   set_fact:
-  #   uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
-  #   uptime_above_limit:
-  #     "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
+   - name: Save Uptime related variables
+     set_fact:
+     uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
 
    - name: Write uptime to eventlog
      win_eventlog_entry:
        log: Application
        source: Ansible
        event_id: 65535
-       message: "{{ uptime_raw }}"
+       message: "{{ uptime_mins }}"
