@@ -7,9 +7,9 @@
     prompt: What is the change ref?
     private: no
 
-  - name: Server uptime
-    reboot:
-      boot_time_command:
+  - name: implementor
+    prompt: Who is implenting this change?
+    private: no
 
   tasks:
    - name: Write an entry to a Windows event log
@@ -17,4 +17,4 @@
        log: Application
        source: Ansible
        event_id: 6666
-       message: Firmware updated via "{{ change_ref }}"
+       message: Firmware updated via {{ change_ref }} and implemented by {{ implementor}}
