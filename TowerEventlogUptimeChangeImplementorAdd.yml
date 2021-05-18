@@ -26,11 +26,11 @@
       uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
       uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
-  - debug:
+- debug:
     msg: "uptime is {{uptime_mins}} minutes"
 
-  - name: Write an entry to a Windows event log
-    win_eventlog_entry:
+- name: Write an entry to a Windows event log
+  win_eventlog_entry:
     log: Application
     source: Ansible
     event_id: 65535
