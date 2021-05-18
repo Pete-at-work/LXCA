@@ -20,4 +20,4 @@
           log: Application
           source: Ansible
           event_id: 65535
-          message: "{{uptime_raw}} \n\n{{ uptime_raw.stdout_lines[0] | int }}"
+          message: "{{ uptime_raw }}"
