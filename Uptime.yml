@@ -2,7 +2,7 @@
 - hosts: host-win
   gather_facts: false
   vars:
-    uptime_threshold: 60
+    uptime_threshold
 
   tasks:
    - name: gather uptime from server
@@ -23,4 +23,4 @@
        log: Application
        source: Ansible
        event_id: 65535
-       message: "{{ uptime_raw }}"
+       message: "{{ uptime_mins }}"
