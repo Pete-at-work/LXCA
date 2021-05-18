@@ -24,8 +24,8 @@
       msg: "uptime is {{uptime_mins}} minutes"
 
   - name: change_ref
-    prompt: What is the change ref?
-    private: no
+      prompt: What is the change ref?
+      private: no
 
   - name: implementor
     prompt: Who is implenting this change?
