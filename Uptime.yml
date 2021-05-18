@@ -3,6 +3,7 @@
   gather_facts: false
   vars:
     uptime_raw
+    uptime_threshold
 
   tasks:
    - name: gather uptime from server
