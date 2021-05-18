@@ -17,4 +17,6 @@
        log: Application
        source: Ansible
        event_id: 65535
-       message: Firmware updated by {{ change_ref }} / implemented by {{ implementor }}
+       message: "Firmware updated via {{ change_ref }}
+                Implemented by {{ implementor }}
+                Server uptime xxxxx"
