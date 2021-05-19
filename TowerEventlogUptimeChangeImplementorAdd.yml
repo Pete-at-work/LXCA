@@ -1,9 +1,7 @@
 ---
 - hosts: host-win
   gather_facts: false
-
   vars_prompt:
-
   vars:
     uptime_threshold: 60
 
