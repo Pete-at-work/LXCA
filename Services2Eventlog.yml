@@ -8,5 +8,9 @@
     ansible.windows.win_service_info:
     register: service_info
 
+  - name: services
+    set_fact:
+      services: "{{ service_info | int }}"
+
   - debug:
-      msg: service_info
+      msg: services
