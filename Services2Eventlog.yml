@@ -1,16 +1,14 @@
 ---
 - hosts: host-win
   gather_facts: false
+  vars:
+    services_info
 
   tasks:
 
   - name: Get info for all installed services
     ansible.windows.win_service_info:
-    register: service_info
-
-  - name: services
-    set_fact:
-      services: "{{ service_info | int }}"
+    register: services_info
 
   - debug:
-      msg: services
+      msg: services_info
