@@ -21,7 +21,7 @@
 
   - name: Save Uptime related variables
     set_fact:
-      uptime_mins: "{{ uptime_raw.stdout_lines[0]/60 | int }}"
+      uptime_mins: "{{ uptime_raw.stdout_lines[0] // 60 | int }}"
 
   #- name: convert to hours
   #  set_fact:
