@@ -21,14 +21,11 @@
 
   - name: Save Uptime related variables
     set_fact:
-      uptime_mins: "//: {{ uptime_raw.stdout_lines[0] // 60 | int }}"
-
-  #- name: convert to hours
-  #  set_fact:
-  #    uptime_hours: "{{ (uptime_mins/60) }}"
+    #  uptime_mins: "{{ uptime_raw.stdout_lines[0] }}"
+      uptime_hours: "{{ uptime_raw.stdout_lines[0] | int / 60 }}"
 
   - debug:
-      msg: "uptime is {{uptime_mins}} minutes"
+      msg: "uptime is {{uptime_hours}} hours"
 
   - name: Write an entry to a Windows event log
     win_eventlog_entry:
