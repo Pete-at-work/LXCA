@@ -2,8 +2,6 @@
 - hosts: host-win
   gather_facts: false
 
-
-
   vars_prompt:
 
   - name: change_ref
@@ -13,7 +11,6 @@
   - name: implementor
     prompt: Who is implenting this change?
     private: no
-
 
   tasks:
   - name: get the affected windows host's uptime
@@ -25,16 +22,14 @@
   - name: Save Uptime related variables
     set_fact:
       uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
-    #  uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
+      uptime_hours: "{{ uptime_mins }} / 60"
 
   - debug:
       msg: "uptime is {{uptime_mins}} minutes"
-
-
 
   - name: Write an entry to a Windows event log
     win_eventlog_entry:
       log: Application
       source: Ansible
       event_id: 65535
-      message: "Firmware updated via {{ change_ref }} \n\nImplemented by {{ implementor }} \n\nServer uptime {{uptime_mins}}"
+      message: "Firmware updated via {{ change_ref }} \n\nImplemented by {{ implementor }} \n\nServer uptime {{uptime_hours}}"
