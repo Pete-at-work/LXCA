@@ -25,7 +25,7 @@
 
   - name: convert to hours
     set_fact:
-      uptime_hours: "{{ (uptime_mins/60 | int) }} hours"
+      uptime_hours: "{{ (uptime_mins/60) }}"
 
   - debug:
       msg: "uptime is {{uptime_mins}} minutes"
