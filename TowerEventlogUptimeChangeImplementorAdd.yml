@@ -28,7 +28,7 @@
     prompt: Who is implenting this change?
     private: no
 
--   name: Write an entry to a Windows event log
+  - name: Write an entry to a Windows event log
     win_eventlog_entry:
       log: Application
       source: Ansible
