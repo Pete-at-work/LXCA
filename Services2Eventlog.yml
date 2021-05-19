@@ -1,0 +1,14 @@
+---
+- hosts: host-win
+  gather_facts: false
+
+
+
+- name: Get info for a service using its display name
+  ansible.windows.win_service_info:
+    name: Windows Remote Management (WS-Management)
+
+
+- name: Get info for all installed services
+  ansible.windows.win_service_info:
+  register: service_info
