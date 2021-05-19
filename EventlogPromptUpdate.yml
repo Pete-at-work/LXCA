@@ -1,6 +1,7 @@
 ---
 - hosts: host-win
   gather_facts: false
+  vars_prompt:
 
   tasks:
   - name: get the affected windows host's uptime
@@ -16,8 +17,6 @@
 
   - debug:
       msg: "uptime is {{uptime_mins}} minutes"
-
-  vars_prompt:
 
   - name: change_ref
     prompt: What is the change ref?
