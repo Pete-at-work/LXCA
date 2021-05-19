@@ -22,7 +22,7 @@
   - name: Save Uptime related variables
     set_fact:
       uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
-      uptime_hours: "{{ uptime_mins }} / 60"
+      uptime_hours: "{{ uptime_mins / 60 }}"
 
   - debug:
       msg: "uptime is {{uptime_mins}} minutes"
