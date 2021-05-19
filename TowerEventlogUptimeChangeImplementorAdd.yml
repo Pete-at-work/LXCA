@@ -18,7 +18,7 @@
       uptime_above_limit: "{{ (uptime_raw.stdout_lines[0] | int) >= (uptime_threshold | int) }}"
 
   - debug:
-      msg: "uptime is {{uptime_mins}} minutes"
+    msg: "uptime is {{uptime_mins}} minutes"
 
   - name: change_ref
     prompt: What is the change ref?
