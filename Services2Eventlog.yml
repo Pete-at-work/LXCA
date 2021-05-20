@@ -5,9 +5,9 @@
   tasks:
   - name: Get info for all installed services
     ansible.windows.win_service_info:
-      name: WinRM
+      name: Win*
     register: services_info
 
   - name: print to screen
     debug:
-      msg: " installed windows services \n\n {{services_info}}"
+      msg: {{services_info}}
