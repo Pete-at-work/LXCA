@@ -6,7 +6,7 @@
 
   - name: Get info for all installed services
     ansible.windows.win_service_info:
-      name: state
+      name: services
     register: services_info
 
   - name: print to screen
