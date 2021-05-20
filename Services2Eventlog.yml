@@ -3,11 +3,11 @@
   gather_facts: false
 
   tasks:
-- name: Find all services that start with 'win'
-  ansible.windows.win_service_info:
-    name: win*
+  - name: Find all services that start with 'win'
+    ansible.windows.win_service_info:
+      name: win*
     register: service_info
 
-- name: print to screen
-  debug:
-    msg: "{{service_info.display_name}}"
+  - name: print to screen
+    debug:
+      msg: "{{service_info.display_name}}"
