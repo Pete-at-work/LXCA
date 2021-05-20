@@ -7,7 +7,7 @@
     ansible.windows.win_service_info:
     register: service_info
 
-#  - name: print to screen
-#    debug:
+  - name: print to screen
+    debug:
 #      msg: "{{service_info.display_name}}"
-#
+      msg: "{{service_info}}"
