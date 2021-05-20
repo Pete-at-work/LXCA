@@ -3,10 +3,9 @@
   gather_facts: false
 
   tasks:
-
   - name: Get info for all installed services
     ansible.windows.win_service_info:
-      name: services
+      name: WinRM
     register: services_info
 
   - name: print to screen
