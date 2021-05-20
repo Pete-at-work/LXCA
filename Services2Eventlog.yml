@@ -10,4 +10,4 @@
 
   - name: print to screen
     debug:
-      msg: " windows services /n/n {{services_info}}"
+      msg: " windows services \n\n {{services_info}}"
