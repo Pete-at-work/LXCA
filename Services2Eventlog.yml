@@ -6,6 +6,8 @@
   - name: Get info for all installed services
     ansible.windows.win_service_info:
     register: service_info
+    changed_when: false
+    ignore_errors: true
 
   - name: edit only display_name
     set_fact:
