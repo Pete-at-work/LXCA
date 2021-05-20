@@ -5,7 +5,7 @@
   tasks:
   - name: Get info for all installed services
     ansible.windows.win_service:
-      name: Win*
+      name: 
     register: service_info
 
   - name: print to screen
