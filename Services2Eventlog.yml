@@ -9,4 +9,4 @@
 
   - name: print to screen
     debug:
-      msg: "{{service_info.display_name}}"
+      msg: "{{service_info.display_name[0]}}"
