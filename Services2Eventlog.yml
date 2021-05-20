@@ -11,7 +11,7 @@
 
   - name: edit only display_name
     set_fact:
-      dis_name: "{{ service_info.stdout_lines[0] }}"
+      dis_name: "{{ service_info }}"
 
 #  - name: print to screen
 #    debug:
