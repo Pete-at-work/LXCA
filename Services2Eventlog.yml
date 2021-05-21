@@ -3,11 +3,20 @@
   gather_facts: false
 
   tasks:
-  - name: Find all serv
-    ansible.windows.win_service_info:
-    register: service_info
+  - name: get the affected windows host's uptime
+    win_shell: get-service
+    register: service
+    changed_when: false
+    ignore_errors: true
 
-  - name: print to screen
-    debug:
-      msg: "{{service_info.display_name[9]}}"
+
+
+
+#  - name: Find all serv
+#    ansible.windows.win_service_info:
+#    register: service_info
+
+#  - name: print to screen
+#    debug:
+#      msg: "{{service_info.display_name[9]}}"
 #      msg: "{{service_info}}"
