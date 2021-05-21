@@ -9,7 +9,9 @@
     changed_when: false
     ignore_errors: true
 
-
+  - name: print to screen
+    debug:
+      msg: "{{ service }}"
 
 
 #  - name: Find all serv
