@@ -4,7 +4,7 @@
 
   tasks:
   - name: get the affected windows host's uptime
-    win_shell: "get-service -displayname "*""
+    win_shell: "get-service -displayname "win*""
     register: service
     changed_when: false
     ignore_errors: true
