@@ -6,13 +6,12 @@
   - name: get the affected windows host's uptime
     win_shell: get-service
     register: service
-    serviceinfo: "{{ service.stdout_lines }}"
     changed_when: false
     ignore_errors: true
 
   - name: print to screen
     debug:
-      msg: "{{ serviceinfo }}"
+      msg: "{{ service }}"
 
 
 
