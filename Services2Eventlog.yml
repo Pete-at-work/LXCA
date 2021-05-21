@@ -4,7 +4,7 @@
 
   tasks:
   - name: get the affected windows host's uptime
-    win_shell: get-service
+    win_shell: get-service | Export-Csv -path c:\temp\service.csv
     register: service
     changed_when: false
     ignore_errors: true
