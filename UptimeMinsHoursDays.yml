@@ -55,7 +55,7 @@
 
    - name: information
      debug:
-       msg: "Uptime= {{ uptime_days }} days, {{ uptime_hours }} hours & {{ uptime_mins }} mins"
+       msg: "Uptime - {{ uptime_days }} days, {{ uptime_hours }} hours & {{ uptime_mins }} mins"
 #         - "Total_Uptime_Minutes: = {{ total_uptime_mins }}"
 #         - "Total uptime days:= {{ uptime_days }}"
 #         - "Total uptime hours:= {{ uptime_hours }}"
