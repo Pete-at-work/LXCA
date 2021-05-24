@@ -1,10 +1,13 @@
 ---
 - hosts: host-win
   gather_facts: false
+  become_method: runas
 
   tasks:
   - name: get the affected windows host's uptime
     win_shell: Get-Service | Export-Csv -path "C:\services.csv"
+    become: yes
+    become_user: Administrator
     register: service
     changed_when: false
     ignore_errors: true
