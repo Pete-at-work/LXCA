@@ -1,0 +1,69 @@
+---
+- hosts: host-win
+  gather_facts: false
+  vars:
+     total_uptime_mins:
+     uptime_days:
+     uptime_hours:
+     uptime_mins:
+     uptime_remain_mins:
+
+  tasks:
+
+   - name: get the affected windows host's uptime
+     win_shell: "[convert]::ToInt32(($(Get-Date) - $(Get-WmiObject Win32_OperatingSystem).ConvertToDateTime($(Get-WmiObject Win32_OperatingSystem).LastBootUpTime)).TotalMInutes);"
+     register: uptime_raw
+     changed_when: false
+     ignore_errors: true
+
+   - name: Get total minutes
+     set_fact:
+      total_uptime_mins: "{{ uptime_raw.stdout_lines[0] | int }}"
+  #    total_uptime_mins: "3492"
+
+   - name: powershell gets total days
+     win_shell: "{{ total_uptime_mins }} / 1440"
+     register: uptime_days
+
+   - name: Get total days
+     set_fact:
+      uptime_days: "{{ uptime_days.stdout_lines[0] | int }}"
+
+   - name: remove number of hours from total minutes
+     win_shell: " {{ total_uptime_mins }} - ({{uptime_days}} * 1440)"
+     register: uptime_remain_mins
+
+   - name: Get total days
+     set_fact:
+      uptime_remain_mins: "{{ uptime_remain_mins.stdout_lines[0] | int }}"
+
+   - name: powershell get total hours
+     win_shell: "{{ uptime_remain_mins }} / 60"
+     register: uptime_hours
+
+   - name: Get total hours
+     set_fact:
+      uptime_hours: "{{ uptime_hours.stdout_lines[0] | int }}"
+
+   - name: powershell get total mins
+     win_shell: "{{uptime_remain_mins}} - ({{ uptime_hours }} * 60)"
+     register: uptime_mins
+
+   - name: Get remaining minutes
+     set_fact:
+      uptime_mins: "{{ uptime_mins.stdout_lines[0] | int }}"
+
+   - name: information
+     debug:
+       msg: "Uptime= {{ uptime_days }} days, {{ uptime_hours }} hours & {{ uptime_mins }} mins"
+#         - "Total_Uptime_Minutes: = {{ total_uptime_mins }}"
+#         - "Total uptime days:= {{ uptime_days }}"
+#         - "Total uptime hours:= {{ uptime_hours }}"
+#         - "Total uptime minutes:= {{ uptime_mins }}"
+
+   - name: Write an entry to a Windows event log
+     win_eventlog_entry:
+       log: Application
+       source: Ansible
+       event_id: 65535
+       message: "Uptime= {{ uptime_days }} days, {{ uptime_hours }} hours & {{ uptime_mins }} mins"
