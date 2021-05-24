@@ -9,16 +9,16 @@
     changed_when: false
     ignore_errors: true
 
-  - name: print to screen
-    debug:
-      msg: "{{ service }}"
+#  - name: print to screen
+#    debug:
+#      msg: "{{ service }}"
 
-  - name: Write Windows event log
-    win_eventlog_entry:
-      log: Application
-      source: Ansible
-      event_id: 65535
-      message: "{{ service }}"
+#  - name: Write Windows event log
+#    win_eventlog_entry:
+#      log: Application
+#      source: Ansible
+#      event_id: 65535
+#      message: "{{ service }}"
 
 #  - name: Find all serv
 #    ansible.windows.win_service_info:
