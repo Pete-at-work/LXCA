@@ -13,4 +13,4 @@
       path: C:\Windows
     register: folder_info
 
-  - debug: msg="{{ folder_info }} & {{ folder }}"
+#  - debug: msg="{{ folder_info }} & {{ folder }}"
