@@ -14,3 +14,6 @@
     register: folder_info
 
 #  - debug: msg="{{ folder_info }} & {{ folder }}"
+  - name: information
+    debug:
+      msg: "{{ folder_info }} & {{ folder }}"
