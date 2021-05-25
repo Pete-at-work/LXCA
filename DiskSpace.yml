@@ -3,35 +3,26 @@
   gather_facts: false
 
   tasks:
-  - name: Get disk facts
-    community.windows.win_disk_facts:
+  - set_fact:
+      mount: "{{ ansible_mounts | first }}"
 
-#  - name: Output first disk size
-#    debug:
-#      var: ansible_facts.disks[0].size
+  - set_fact: disk_usage="{{ mount.size_total - mount.size_available }}"
+  - set_fact: disk_usage_ratio="{{ disk_usage|float / mount.size_total }}"
+  - set_fact: disk_usage_s="{{ (disk_usage|float / 1000000000) | round(1, 'common') }}GB"
+  - set_fact: disk_total_s="{{ (mount.size_total / 1000000000) | round(1, 'common') }}GB"
+  - set_fact: disk_usage_ratio_s="{{ 100 * (disk_usage_ratio|float) | round(1, 'common') }}%"
+  - set_fact: disk_limit_ratio_s="{{ (100 * disk_limit|float) |round }}%"
 
-  - name: 
-    register: usage
-
-  - debug: msg="{{ usage.stdout }}"
-
-
-
-#    debug:
-
-#      msg: "{{ disksize_gib }} vs {{ disksize_gib_human }}"
-#      vars:
-     # Get first system disk
-#      disk: "{{ ansible_facts.disks|selectattr("system_disk")|first }}"
-
-#     # Show disk size in Gibibytes
-#      disksize_gib_human: '{{ disk.size|filesizeformat(true) }}'   # returns "223.6 GiB" (human readable)
-#      disksize_gib: '{{ (disk.size/1024|pow(3))|round|int }} GiB'  # returns "224 GiB" (value in GiB)
-
-#     # Show disk size in Gigabytes
-#      disksize_gb_human: '{{ disk.size|filesizeformat }}'        # returns "240.1 GB" (human readable)
-#      disksize_gb: '{{ (disk.size/1000|pow(3))|round|int }} GB'  # returns "240 GB" (value in GB)
+  - debug:
+      msg: "disk usage {{ disk_usage_s }} of total {{ disk_total_s }} ({{ disk_usage_ratio_s }}) (should be within limit {{ disk_limit_ratio_s }})"
 
   - name:
-    debug:
-      msg: {{ disk }}
+    assert:
+      that: ( (disk_usage|float)/mount.size_total ) < disk_limit|float
+      msg: "Disk usage {{ disk_usage_ratio_s }} exceeds {{ disk_limit_ratio_s }}"
+    tags: disk
+    any_errors_fatal: true
+
+  - name: indicate disks okay to statuscake
+    local_action: command /usr/bin/wget 'https://push.statuscake.com/?PK=abcdefghi&TestID=123456&time=0'
+    run_once: true
