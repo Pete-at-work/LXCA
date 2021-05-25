@@ -3,6 +3,7 @@
   gather_facts: false
 
   tasks:
+
   - set_fact:
       mount: "{{ ansible_mounts | first }}"
 

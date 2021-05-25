@@ -1,0 +1,16 @@
+---
+- hosts: host-win
+  gather_facts: false
+
+  tasks:
+  - name: Obtain information about a file
+    win_stat:
+      path: C:\services.csv
+    register: file_info
+
+  - name: Obtain information about a folder
+    win_stat:
+      path: C:\Windows
+    register: folder_info
+
+  - debug: msg="{{ folder_info }} & {{ folder }}"
