@@ -8,10 +8,10 @@
 
   tasks:
 
-    - name: Check input information is provided
-      ansible.builtin.fail:
-        msg: You must supply a lookback duration (m)inutes (h)ours (d)ays (w)eeks
-      when: age is undefined
+#    - name: Check input information is provided
+#      ansible.builtin.fail:
+#        msg: You must supply a lookback duration (m)inutes (h)ours (d)ays (w)eeks
+#      when: age is undefined
 
     - name: Get disk facts - Before
       win_shell: (fsutil volume diskfree C:\) -replace '^.*:\s+|,|\s.*$',''
