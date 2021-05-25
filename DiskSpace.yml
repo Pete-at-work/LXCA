@@ -27,4 +27,4 @@
 
   - name: Output second disk serial number
     debug:
-      var: {{ disksize_gb }}
+      msg: {{ disksize_gb }}
