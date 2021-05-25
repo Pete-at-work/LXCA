@@ -16,4 +16,4 @@
 #  - debug: msg="{{ folder_info }} & {{ folder }}"
   - name: information
     debug:
-      msg: "{{ folder_info }} & {{ folder }}"
+      msg: "{{ folder_info }} & {{ file_info }}"
