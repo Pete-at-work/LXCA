@@ -1,0 +1,116 @@
+---
+- name: Windows Disk Space Clear
+  hosts: host-win
+  gather_facts: yes
+
+  vars:
+    archive_server: someserver.example.domain
+
+  tasks:
+
+    - name: Check input information is provided
+      ansible.builtin.fail:
+        msg: You must supply a lookback duration (m)inutes (h)ours (d)ays (w)eeks
+      when: age is undefined
+
+    - name: Get disk facts - Before
+      win_shell: (fsutil volume diskfree C:\) -replace '^.*:\s+|,|\s.*$',''
+      register: cdrivestats
+      changed_when: false
+
+    - name: Setting Variables for Used and Total
+      set_fact:
+        pre_free: "{{cdrivestats.stdout_lines[0] | int / 1024 / 1024 / 1024}}"
+        pre_total: "{{cdrivestats.stdout_lines[1] | int /1024 / 1024 / 1024}}"
+        pre_free_bytes: "{{cdrivestats.stdout_lines[0]}}"
+        pre_total_bytes: "{{cdrivestats.stdout_lines[1]}}"
+
+    - name: C Drive Capacity Before
+      debug:
+        msg: Total Capacity {{pre_total | float | round(2,'common')}} GB , Free Capacity {{pre_free | float | round(2,'common')}} GB, Used Capacity {{((pre_total | float) - (pre_free | float))  | round(2,'common')}} GB ({{(((pre_total | float) - (pre_free | float)) / (pre_total | float)* 100)  | round(2,'common')}} %)
+
+
+    - name: Look for Service Packs and $ntum files in c:\windows
+      win_find:
+        paths: C:\Windows
+        patterns: [ 'servicepack1*.*' , '$ntum*.*' ]
+        file_type: file
+        age: "{{age}}"
+      register: servicepacks
+
+    - name: Look for *.tmp in C:\temp
+      win_find:
+        paths: C:\temp
+        patterns: [ '*.tmp' ]
+        file_type: file
+        age: "{{age}}"
+        recurse: yes
+      register: tmpintemp
+
+    - name: Look for *.tmp in C:\Windows\Temp
+      win_find:
+        paths: C:\Windows\temp
+        patterns: [ '*.tmp' ]
+        file_type: file
+        age: "{{age}}"
+        recurse: yes
+      register: tmpinwintemp
+
+    - name: Look for memory.dmp in C:\Windows
+      win_find:
+        paths: C:\Windows
+        patterns: [ 'memory.dmp' ]
+        file_type: file
+        age: "{{age}}"
+      register: memdump
+
+    - name: Merge the file lists
+      set_fact:
+        lists_merged: "{{ servicepacks.files + tmpintemp.files + tmpinwintemp.files | list }}"
+
+    - name: Get the content of found files from host
+      debug:
+        msg: File {{item.path}} Size {{item.size/1024/1024}} MB Owner {{item.owner}}
+      with_items: "{{lists_merged}}"
+
+    - name: Delete files found
+      ansible.windows.win_file:
+        path: "{{to_be_removed.path}}"
+        state: absent
+      loop: "{{lists_merged}}"
+      loop_control:
+        loop_var: to_be_removed
+
+# the below is untested
+#    - name: Copy the file from the Windows Host to the archive server using Method Pull
+#      tags: sync-pull
+#      synchronize:
+#        src: "{{ item }}"
+#        dest: \\memorydump$\\{{inventory_hostname}}\\{{ ansible_date_time.date }}
+#        mode: pull
+#      delegate_to: "{{archive_server}}"
+#      register: syncfile
+#      run_once: true
+#      with_items:
+#       - "C:/Windows/memory.dmp"
+
+    - name: Get disk facts - After
+      win_shell: (fsutil volume diskfree C:\) -replace '^.*:\s+|,|\s.*$',''
+      register: cdrivestats
+      changed_when: false
+
+    - name: Setting Variables for Used and Total
+      set_fact:
+        post_free: "{{cdrivestats.stdout_lines[0] | int / 1024 / 1024 / 1024}}"
+        post_total: "{{cdrivestats.stdout_lines[1] | int /1024 / 1024 / 1024}}"
+        post_free_bytes: "{{cdrivestats.stdout_lines[0]}}"
+        post_total_bytes: "{{cdrivestats.stdout_lines[1]}}"
+
+    - name: C Drive Capacity After
+      debug:
+        msg: Total Capacity {{post_total | float | round(2,'common')}} GB , Free Capacity {{post_free | float | round(2,'common')}} GB, Used Capacity {{((post_total | float) - (post_free | float))  | round(2,'common')}} GB ({{(((post_total | float) - (post_free | float)) / (post_total | float)* 100)  | round(2,'common')}} %)
+
+    - name: Reclaimed Space in bytes
+      debug:
+        msg: Space reclaimed was {{(post_free_bytes | float) - (pre_free_bytes | float)}} b
+...
