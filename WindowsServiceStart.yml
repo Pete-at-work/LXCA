@@ -1,0 +1,8 @@
+---
+- hosts: host-win
+  gather_facts: false
+
+- name: Start a service
+  ansible.windows.win_service:
+    name: "Computer browser"
+    state: started
