@@ -21,7 +21,7 @@
       when:
       - status.failed == false
 
-    - name: kill process of service
+    - name: terminate service
       ansible.windows.win_command: cmd.exe
       args:
         stdin: taskkill /FI "SERVICES eq windows time" /F
