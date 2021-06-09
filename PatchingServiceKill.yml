@@ -2,7 +2,7 @@
 ---
  **** Setting Socket tunnel ****
 - name: Role ensures that the socks tunnel is setup
-- hosts: all
+- hosts: host-win
   connection: local
   gather_facts: false
   tasks:
