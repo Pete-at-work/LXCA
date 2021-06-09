@@ -19,7 +19,7 @@
     - name: stop playbook as service is running
       meta: end_host
       when:
-      - status.failed == false
+      - status_failed == false
 
     - name: terminate service
       ansible.windows.win_command: cmd.exe
