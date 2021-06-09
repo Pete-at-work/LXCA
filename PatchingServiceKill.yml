@@ -14,12 +14,13 @@
 
     - debug:
         msg: " Windows time service is running "
-      when: status.failed == false
+      when:
+      - status.failed == false
 
     - name: stop playbook as service is running
       meta: end_host
       when:
-      - status_failed == false
+      - status.failed == false
 
     - name: terminate service
       ansible.windows.win_command: cmd.exe
