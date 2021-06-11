@@ -5,16 +5,16 @@
   gather_facts: false
   tasks:
 
-    - name: Check windows time
-      ansible.windows.win_service:
-        name: "windows time"
-        state: started
-      register: status
+#    - name: Check windows time
+#      ansible.windows.win_service:
+#        name: "windows time"
+#        state: started
+#      register: status
 
-    - debug:
-        msg: " Windows time service is running "
-      when:
-        - status.failed == false
+#    - debug:
+#        msg: " Windows time service is running "
+#      when:
+#      - status.failed == false
 
 #    - name: stop playbook as service is running
 #      meta: end_host
