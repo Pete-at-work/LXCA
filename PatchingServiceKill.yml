@@ -1,51 +1,45 @@
 
 ---
 - hosts: host-win
-#  connection: local
+  connection: local
   gather_facts: false
   tasks:
 
-#- name: Save the result of 'whoami' in 'whoami_out'
-#  ansible.windows.win_command: whoami
-#  register: whoami_out
+    - name: Check windows time
+      ansible.windows.win_service:
+        name: "windows time"
+        state: started
+      register: status
 
-#    - name: Check windows time
-#      ansible.windows.win_service:
-#        name: "windows time"
-#        state: started
-#      register: status
+    - debug:
+        msg: " Windows time service is running "
+      when:
+      - status.failed == false
 
-#    - debug:
-#        msg: " Windows time service is running "
-#      when:
-#      - status.failed == false
+    - name: stop playbook as service is running
+      meta: end_host
+      when:
+      - status.failed == false
 
-#    - name: stop playbook as service is running
-#      meta: end_host
-#      when:
-#      - status.failed == false
+    - name: terminate service
+      win_command: taskkill /FI "SERVICES eq windows time" /F
+      register: result_service_kill
 
-  - name: terminate service
-    win_command: taskkill /FI "SERVICES eq windows time" /F
-#    args:
-#      stdin: taskkill /FI "SERVICES eq windows time" /
-    register: result_service_kill
+    - name: pause tasks for 3 seconds
+      ansible.builtin.pause:
+        seconds: 3
+        prompt: Waiting for task kill command, please wait!
 
-#    - name: pause tasks for 3 seconds
-#      ansible.builtin.pause:
-#        seconds: 3
-#        prompt: Waiting for task kill command, please wait!
-#
-#    - name: Re-Check windows time
-#      ansible.windows.win_service:
-#        name: "windows time"
-#        state: started
-#      register: status2
+    - name: Re-Check windows time
+      ansible.windows.win_service:
+        name: "windows time"
+        state: started
+      register: status2
 
-#    - debug:
-#        msg: " Windows time service is running "
-#      when: status2.failed == false
+    - debug:
+        msg: " Windows time service is running "
+      when: status2.failed == false
 
-#    - debug:
-#        msg: " Windows time service is stopped and didnt restart - please investigate "
-#      when: status2.failed == true
+    - debug:
+        msg: " Windows time service is stopped and didnt restart - please investigate "
+      when: status2.failed == true
