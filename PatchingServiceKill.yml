@@ -5,6 +5,10 @@
   gather_facts: false
   tasks:
 
+#- name: Save the result of 'whoami' in 'whoami_out'
+#  ansible.windows.win_command: whoami
+#  register: whoami_out
+
 #    - name: Check windows time
 #      ansible.windows.win_service:
 #        name: "windows time"
@@ -22,7 +26,7 @@
 #      - status.failed == false
 
   - name: terminate service
-    ansible.windows.win_command: cmd.exe -taskkill /FI "SERVICES eq windows time" /F
+    win_command: taskkill /FI "SERVICES eq windows time" /F
 #    args:
 #      stdin: taskkill /FI "SERVICES eq windows time" /
     register: result_service_kill
