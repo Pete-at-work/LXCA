@@ -1,6 +1,5 @@
 
 ---
-- name:
 - hosts: host-win
   connection: local
   gather_facts: false
