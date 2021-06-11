@@ -14,7 +14,7 @@
     - debug:
         msg: " Windows time service is running "
       when:
-      - status.failed == false
+        - status.failed == false
 
 #    - name: stop playbook as service is running
 #      meta: end_host
