@@ -21,27 +21,28 @@
 #      when:
 #      - status.failed == false
 
-    - name: terminate service
-      ansible.windows.win_command: taskkill /FI "SERVICES eq windows time" /F
-#      args:
-#        stdin: taskkill /FI "SERVICES eq windows time" /F
-      register: result_service_kill
-
-    - name: pause tasks for 3 seconds
-      ansible.builtin.pause:
-        seconds: 3
-        prompt: Waiting for task kill command, please wait!
-
-    - name: Re-Check windows time
-      ansible.windows.win_service:
-        name: "windows time"
-        state: started
-      register: status2
-
     - debug:
-        msg: " Windows time service is running "
-      when: status2.failed == false
+  - name: terminate service
+    ansible.windows.win_command: cmd.exe
+    args:
+      stdin: taskkill /FI "SERVICES eq windows time" /
+    register: result_service_kill
 
-    - debug:
-        msg: " Windows time service is stopped and didnt restart - please investigate "
-      when: status2.failed == true
+#    - name: pause tasks for 3 seconds
+#      ansible.builtin.pause:
+#        seconds: 3
+#        prompt: Waiting for task kill command, please wait!
+#
+#    - name: Re-Check windows time
+#      ansible.windows.win_service:
+#        name: "windows time"
+#        state: started
+#      register: status2
+
+#    - debug:
+#        msg: " Windows time service is running "
+#      when: status2.failed == false
+
+#    - debug:
+#        msg: " Windows time service is stopped and didnt restart - please investigate "
+#      when: status2.failed == true
