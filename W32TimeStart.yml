@@ -1,0 +1,45 @@
+
+---
+- hosts: host-win
+  connection: local
+  gather_facts: false
+  tasks:
+
+    - name: Check windows time
+      ansible.windows.win_service:
+        name: W32Time
+        state: started
+      register: status
+
+    - debug:
+        msg: " Windows time service is running "
+      when:
+      - status.failed == false
+
+    - name: stop time as service is running
+      meta: end_host
+      when:
+      - status.failed == false
+
+    - name: terminate service
+      win_command: taskkill /FI "SERVICES eq W32Time" /F
+      register: result_service_kill
+
+    - name: pause tasks for 3 seconds
+      ansible.builtin.pause:
+        seconds: 3
+        prompt: Waiting for task kill command, please wait!
+
+    - name: Re-Check time time
+      ansible.windows.win_service:
+        name: W32Time
+        state: started
+      register: status2
+
+    - debug:
+        msg: " Windows time is running "
+      when: status2.failed == false
+
+    - debug:
+        msg: " Windows uptime is stopped and didnt restart - please investigate "
+      when: status2.failed == true
