@@ -22,9 +22,9 @@
 #      - status.failed == false
 
   - name: terminate service
-    ansible.windows.win_command: cmd.exe
-    args:
-      stdin: taskkill /FI "SERVICES eq windows time" /
+    ansible.windows.win_command: cmd.exe -taskkill /FI "SERVICES eq windows time" /F
+#    args:
+#      stdin: taskkill /FI "SERVICES eq windows time" /
     register: result_service_kill
 
 #    - name: pause tasks for 3 seconds
