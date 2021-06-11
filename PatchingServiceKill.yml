@@ -7,22 +7,22 @@
 
     - name: Check windows time
       ansible.windows.win_service:
-        name: "windows time"
+        name: spooler
         state: started
       register: status
 
     - debug:
-        msg: " Windows time service is running "
+        msg: " Windows spooler service is running "
       when:
       - status.failed == false
 
-    - name: stop playbook as service is running
+    - name: stop spooler as service is running
       meta: end_host
       when:
       - status.failed == false
 
     - name: terminate service
-      win_command: taskkill /FI "SERVICES eq windows time" /F
+      win_command: taskkill /FI "SERVICES eq spooler" /F
       register: result_service_kill
 
     - name: pause tasks for 3 seconds
@@ -30,16 +30,16 @@
         seconds: 3
         prompt: Waiting for task kill command, please wait!
 
-    - name: Re-Check windows time
+    - name: Re-Check spooler time
       ansible.windows.win_service:
-        name: "windows time"
+        name: spooler
         state: started
       register: status2
 
     - debug:
-        msg: " Windows time service is running "
+        msg: " Windows spooler is running "
       when: status2.failed == false
 
     - debug:
-        msg: " Windows time service is stopped and didnt restart - please investigate "
+        msg: " Windows spooler is stopped and didnt restart - please investigate "
       when: status2.failed == true
