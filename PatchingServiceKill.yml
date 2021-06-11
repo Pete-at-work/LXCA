@@ -21,7 +21,6 @@
 #      when:
 #      - status.failed == false
 
-    - debug:
   - name: terminate service
     ansible.windows.win_command: cmd.exe
     args:
