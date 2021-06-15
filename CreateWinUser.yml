@@ -1,6 +1,8 @@
 ---
 - hosts: host-win
-  gather_facts: no
+  connection: local
+  gather_facts: false
+  tasks:
 
 - name: Ensure user bob is present
   win_user:
