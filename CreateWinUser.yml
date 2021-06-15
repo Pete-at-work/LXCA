@@ -1,0 +1,11 @@
+---
+- name: Ensure user bob is present
+  hosts: host-win
+  gather_facts: no
+
+  ansible.windows.win_user:
+    name: bob
+    password: B0bP4ssw0rd
+    state: present
+    groups:
+      - Users
