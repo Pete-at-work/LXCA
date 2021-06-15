@@ -11,7 +11,7 @@
      - name: user_password
        prompt: "Enter Password:"
        private: yes
-       encrypt: sha512_crypt
+       encrypt: sha256_crypt
        confirm: yes
 
   tasks:
