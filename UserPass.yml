@@ -1,6 +1,6 @@
 ---
 - name: Play to demonstrate vars prompt feature
-  hosts: vm1.theunixmantra.com
+  hosts: host-win
   gather_facts: no
   become: true
   vars_prompt:
