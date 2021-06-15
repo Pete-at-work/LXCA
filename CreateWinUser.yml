@@ -1,6 +1,5 @@
 ---
-- hosts: 192.168.56.210
-  connection: local
+- hosts: win-host
   gather_facts: false
   tasks:
 
