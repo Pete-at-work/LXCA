@@ -1,0 +1,21 @@
+---
+- name: Play to demonstrate vars prompt feature
+  hosts: vm1.theunixmantra.com
+  gather_facts: no
+  become: true
+  vars_prompt:
+     - name: username
+       prompt: "Enter username:"
+       private: no
+
+     - name: user_password
+       prompt: "Enter Password:"
+       private: yes
+       encrypt: sha512_crypt
+       confirm: yes
+
+  tasks:
+     - name: Create user {{ username }}
+       user:
+         name: "{{ username }}"
+         password: "{{ user_password }}"
