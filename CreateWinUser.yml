@@ -1,12 +1,12 @@
 ---
 - hosts: host-win
-  connection: local
+#  connection: local
   gather_facts: false
   tasks:
 
   - name: Ensure user bob is present
     win_user:
-      name: bob
+      name: bob1
       password: B0bP4ssw0rd
       state: present
       groups:
