@@ -1,0 +1,21 @@
+---
+- hosts: host-win
+  connection: local
+  gather_facts: false
+  tasks:
+
+  - name: Create a task to open 2 command prompts as SYSTEM
+    community.windows.win_scheduled_task:
+      name: TaskName
+      description: open command prompt
+      actions:
+      - path: cmd.exe
+        arguments: /c hostname
+      - path: cmd.exe
+        arguments: /c whoami
+      triggers:
+      - type: daily
+        start_boundary: '2017-10-09T09:00:00'
+      username: SYSTEM
+      state: present
+      enabled: yes
