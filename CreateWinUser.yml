@@ -5,9 +5,14 @@
   tasks:
 
   - name: Ensure user bob is present
-    win_user:
+    ansible.windows.win_user:
       name: bob
       password: B0bP4ssw0rd
       state: present
       groups:
         - Users
+
+  - name: Ensure user bob is absent
+    ansible.windows.win_user:
+      name: bob
+      state: absent
