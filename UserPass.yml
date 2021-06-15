@@ -2,7 +2,7 @@
 - name: Play to demonstrate vars prompt feature
   hosts: host-win
   gather_facts: no
-  become: true
+
   vars_prompt:
      - name: username
        prompt: "Enter username:"
