@@ -6,7 +6,7 @@
 
   - name: Ensure user bob is present
     win_user:
-      name: bob2
+      name: bob
       password: B0bP4ssw0rd
       state: present
       groups:
