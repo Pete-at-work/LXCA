@@ -1,6 +1,7 @@
 ---
 - hosts: host-win
   gather_facts: no
+
 - name: Ensure user bob is present
   win_user:
     name: bob
