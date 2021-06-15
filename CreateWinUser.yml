@@ -1,6 +1,6 @@
 ---
-- hosts: host-win
-#  connection: local
+- hosts: 10.0.2.15
+  connection: local
   gather_facts: false
   tasks:
 
